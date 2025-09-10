@@ -38,18 +38,7 @@ git clone https://github.com/syfaarizal/sijadwal.git
 
 
 ## 📸 Preview Tampilan
-```text
-+-------------------------------------------------------+
-| JADWAL KULIAH |
-+-------------------------------------------------------+
-| [Tambah Jadwal Baru] |
-+-------------------------------------------------------+
-| Mata Kuliah | Dosen | Ruang | Kelas | Hari | Jam |
-|-------------------------------------------------------|
-| Pemrograman | Budi | Lab 1 | IF-1 | Senin| 08-10 |
-| Basis Data | Siti | Lab 2 | IF-2 | Selasa| 10-12 |
-+-------------------------------------------------------+
-```
+![Preview](./assets/img/preview-jadwal.png)
 
 
 ## 🔗 Link Demo
