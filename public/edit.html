@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Jadwal Kuliah</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>✏️ Edit Jadwal Kuliah</h1>
+    <form id="formEdit">
+      <input type="hidden" name="id">
+
+      <label>Mata Kuliah:</label>
+      <input type="text" name="course" required>
+
+      <label>Dosen:</label>
+      <input type="text" name="lecturer" required>
+
+      <label>Ruang:</label>
+      <input type="text" name="room" required>
+
+      <label>Kelas:</label>
+      <input type="text" name="class" required>
+
+      <label>Hari:</label>
+      <select name="day" required>
+        <option value="">-- Pilih Hari --</option>
+        <option>Senin</option>
+        <option>Selasa</option>
+        <option>Rabu</option>
+        <option>Kamis</option>
+        <option>Jumat</option>
+        <option>Sabtu</option>
+      </select>
+
+      <label>Jam Mulai:</label>
+      <input type="time" name="start_time" required>
+
+      <label>Jam Selesai:</label>
+      <input type="time" name="end_time" required>
+
+      <button type="submit">💾 Simpan Perubahan</button>
+    </form>
+
+    <p><a href="index.html">⬅ Kembali ke Daftar Jadwal</a></p>
+  </div>
+
+  <script>
+    // Ambil ID dari URL
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    if (!id) {
+      alert("ID tidak ditemukan!");
+      window.location.href = "index.html";
+    }
+
+    // Load data jadwal berdasarkan ID
+    async function loadData() {
+      try {
+        const res = await fetch(`../api/jadwal_get.php?id=${id}`);
+        const data = await res.json();
+
+        if (!data) {
+          alert("Data tidak ditemukan!");
+          window.location.href = "index.html";
+          return;
+        }
+
+        // Isi form dengan data
+        document.querySelector("[name='id']").value = data.id;
+        document.querySelector("[name='course']").value = data.course;
+        document.querySelector("[name='lecturer']").value = data.lecturer;
+        document.querySelector("[name='room']").value = data.room;
+        document.querySelector("[name='class']").value = data.class;
+        document.querySelector("[name='day']").value = data.day;
+        document.querySelector("[name='start_time']").value = data.start_time;
+        document.querySelector("[name='end_time']").value = data.end_time;
+      } catch (err) {
+        alert("⚠ Error load data: " + err);
+      }
+    }
+
+    loadData();
+
+    // Submit update
+    document.getElementById("formEdit").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(this);
+
+      try {
+        const res = await fetch("../api/jadwal_edit.php", {
+          method: "POST",
+          body: formData
+        });
+        const result = await res.json();
+
+        if (result.success) {
+          alert("✅ Jadwal berhasil diupdate!");
+          window.location.href = "index.html";
+        } else {
+          alert("❌ Gagal update: " + result.message);
+        }
+      } catch (err) {
+        alert("⚠ Error: " + err);
+      }
+    });
+  </script>
+</body>
+</html>
